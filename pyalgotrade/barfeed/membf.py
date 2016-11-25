@@ -17,6 +17,7 @@
 """
 .. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
 """
+from functools import cmp_to_key
 
 from pyalgotrade import barfeed
 from pyalgotrade import bar
@@ -68,8 +69,8 @@ class BarFeed(barfeed.BaseBarFeed):
 
         # Add and sort the bars
         self.__bars[instrument].extend(bars)
-        barCmp = lambda x, y: cmp(x.getDateTime(), y.getDateTime())
-        self.__bars[instrument].sort(barCmp)
+        barCmp = lambda x, y: x.getDateTime().timestamp() - y.getDateTime().timestamp()
+        self.__bars[instrument].sort(key=cmp_to_key(barCmp))
 
         self.registerInstrument(instrument)
 
