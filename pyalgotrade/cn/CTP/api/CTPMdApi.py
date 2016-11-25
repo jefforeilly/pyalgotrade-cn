@@ -24,16 +24,16 @@ import os
 #sys.stdout = codecs.getwriter('utf8')(sys.stdout)
 #sys.stderr = codecs.getwriter('utf8')(sys.stderr)
 
-from vnctpmd import MdApi
+from .vnctpmd import MdApi
 
 #----------------------------------------------------------------------
 def print_dict(d):
     """打印API收到的字典，该函数主要用于开发时的debug"""
-    print '-'*60
-    l = d.keys()
+    print('-'*60)
+    l = list(d.keys())
     l.sort()
     for key in l:
-        print key, ':', d[key]
+        print(key, ':', d[key])
 
 
 def valid_tick_data(this_time, pre_close, price, last_time):
@@ -102,7 +102,7 @@ class CTPMdApi(MdApi):
     #----------------------------------------------------------------------
     def onFrontDisconnected(self, n):
         """服务器断开"""
-        print u'行情服务器连接断开'
+        print('行情服务器连接断开')
 
     #----------------------------------------------------------------------
     def onHeartBeatWarning(self, n):
@@ -114,19 +114,19 @@ class CTPMdApi(MdApi):
     def onRspError(self, error, n, last):
         """错误回报"""
 
-        log = u'行情错误回报，错误代码：' + unicode(error['ErrorID']) + u',' + u'错误信息：' + error['ErrorMsg'].decode('gbk')
-        print log
+        log = '行情错误回报，错误代码：' + str(error['ErrorID']) + ',' + '错误信息：' + error['ErrorMsg'].decode('gbk')
+        print(log)
 
     #----------------------------------------------------------------------
     def onRspUserLogin(self, data, error, n, last):
         """登陆回报"""
 
         if error['ErrorID'] == 0:
-            log = u'行情服务器登陆成功'
+            log = '行情服务器登陆成功'
         else:
-            log = u'登陆回报，错误代码：' + unicode(error['ErrorID']) + u',' + u'错误信息：' + error['ErrorMsg'].decode('gbk')
+            log = '登陆回报，错误代码：' + str(error['ErrorID']) + ',' + '错误信息：' + error['ErrorMsg'].decode('gbk')
 
-        print log
+        print(log)
 
         ## 登录成功后进行订阅
         for instrument in self.__instruments:
@@ -137,11 +137,11 @@ class CTPMdApi(MdApi):
         """登出回报"""
 
         if error['ErrorID'] == 0:
-            log = u'行情服务器登出成功'
+            log = '行情服务器登出成功'
         else:
-            log = u'登出回报，错误代码：' + unicode(error['ErrorID']) + u',' + u'错误信息：' + error['ErrorMsg'].decode('gbk')
+            log = '登出回报，错误代码：' + str(error['ErrorID']) + ',' + '错误信息：' + error['ErrorMsg'].decode('gbk')
 
-        print log
+        print(log)
 
     #----------------------------------------------------------------------
     def onRspSubMarketData(self, data, error, n, last):
@@ -163,7 +163,7 @@ class CTPMdApi(MdApi):
         # print_dict(data)
 
         if instrument not in self.__instruments:
-            self.__logger.error(u'合约', instrument, '没有订阅')
+            self.__logger.error('合约', instrument, '没有订阅')
             return
 
         try:
@@ -183,9 +183,9 @@ class CTPMdApi(MdApi):
                 if valid_tick_data(time, pre_close, price, last_quotation_time):
                     df.loc[len(df)] = [time, price, volume, amount]
                 else:
-                    self.__logger.warn(u'行情数据错误', data)
+                    self.__logger.warn('行情数据错误', data)
 
-        except Exception, e:
+        except Exception as e:
             self.__logger.error(e)
 
     #----------------------------------------------------------------------

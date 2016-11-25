@@ -89,7 +89,7 @@ class thrSMA(strategy.BacktestingStrategy):
             if self.buyCon1() and self.buyCon2():
                 shares = int(self.getBroker().getCash() * 0.2 / bars[self.__instrument].getPrice())
                 self.__position = self.enterLong(self.__instrument, shares)
-                print bars[self.__instrument].getDateTime(), bars[self.__instrument].getPrice()
+                print(bars[self.__instrument].getDateTime(), bars[self.__instrument].getPrice())
                 #self.info("buy %s" % (bars.getDateTime()))
     
     

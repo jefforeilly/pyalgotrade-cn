@@ -16,7 +16,7 @@
 """
 .. moduleauthor:: ZackZK <silajoin@sina.com>
 """
-import Queue
+import queue
 
 import pytz
 
@@ -84,7 +84,7 @@ class GetBarThread(PollingThread):
                 if period_bar:
                     barDict[identifier] = period_bar
 
-            except Exception, e:
+            except Exception as e:
                 logger.error(e)
 
         if len(barDict):
@@ -122,7 +122,7 @@ class CTPLiveFeed(barfeed.BaseBarFeed):
             raise Exception("identifiers must be a list")
 
         self.__identifiers = identifiers
-        self.__queue = Queue.Queue()
+        self.__queue = queue.Queue()
 
         self._thread = GetBarThread(self.__queue, identifiers, frequency)
 
@@ -169,7 +169,7 @@ class CTPLiveFeed(barfeed.BaseBarFeed):
                 ret = eventData
             else:
                 logger.error("Invalid event received: %s - %s" % (eventType, eventData))
-        except Queue.Empty:
+        except queue.Empty:
             pass
         return ret
 
@@ -212,14 +212,14 @@ if __name__ == '__main__':
                 data2['PreClosePrice'] = price - 0.1
 
                 if which == 1:
-                    print data1
+                    print(data1)
                     self._api.onRtnDepthMarketData(data1)
                 elif which == 2:
-                    print data2
+                    print(data2)
                     self._api.onRtnDepthMarketData(data2)
                 else: # both
-                    print data1
-                    print data2
+                    print(data1)
+                    print(data2)
                     self._api.onRtnDepthMarketData(data1)
                     self._api.onRtnDepthMarketData(data2)
 
@@ -236,15 +236,15 @@ if __name__ == '__main__':
         if bars:
             b = bars.getBar('au1606')
             if b:
-                print 'au1606 quotation info: '
-                print '          time', b.getDateTime(), 'open:',b.getOpen(),  'high:', b.getHigh(), ' low: ', b.getLow(), \
-                    'close: ', b.getClose(), 'volume:', b.getVolume(), 'amount:', b.getAmount()
+                print('au1606 quotation info: ')
+                print('          time', b.getDateTime(), 'open:',b.getOpen(),  'high:', b.getHigh(), ' low: ', b.getLow(), \
+                    'close: ', b.getClose(), 'volume:', b.getVolume(), 'amount:', b.getAmount())
 
             b = bars.getBar('IF1602')
             if b:
-                print 'IF1505 quotation info: '
-                print '          time', b.getDateTime(), 'open:',b.getOpen(),  'high:', b.getHigh(), ' low: ', b.getLow(), \
-                    'close: ', b.getClose(), 'volume:', b.getVolume(), 'amount:', b.getAmount()
+                print('IF1505 quotation info: ')
+                print('          time', b.getDateTime(), 'open:',b.getOpen(),  'high:', b.getHigh(), ' low: ', b.getLow(), \
+                    'close: ', b.getClose(), 'volume:', b.getVolume(), 'amount:', b.getAmount())
 
 
 

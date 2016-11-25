@@ -18,9 +18,9 @@
 .. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
 """
 
-import urlparse
-import urllib
-import urllib2
+import urllib.parse
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
 import json
 import pytz
 
@@ -67,7 +67,7 @@ def datetime_to_string(dateTime, exchange):
 
 
 def json_http_request(url):
-    f = urllib2.urlopen(url)
+    f = urllib.request.urlopen(url)
     response = f.read()
     return json.loads(response)
 
@@ -104,8 +104,8 @@ def XigniteGlobalRealTime_GetBar(token, identifier, identifierType, endDateTime,
         "Precision": precision,
         "Period": period,
     }
-    parts = (scheme, "globalrealtime.xignite.com", "v3/xGlobalRealTime.json/GetBar", urllib.urlencode(params), "")
-    url = urlparse.urlunsplit(parts)
+    parts = (scheme, "globalrealtime.xignite.com", "v3/xGlobalRealTime.json/GetBar", urllib.parse.urlencode(params), "")
+    url = urllib.parse.urlunsplit(parts)
 
     ret = json_http_request(url)
     if ret.get("Outcome") != "Success":

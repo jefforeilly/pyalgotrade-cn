@@ -2,7 +2,7 @@
 
 import os
 
-from vnctptd import TdApi
+from .vnctptd import TdApi
 from pyalgotrade.Xtrader.utils.logger import future_srv_logger as logger
 from pyalgotrade.Xtrader.futureServer.api.ctpDataType import defineDict
 
@@ -36,7 +36,7 @@ class CTPTdApi(TdApi):
         """服务器连接"""
         self.connectionStatus = True
         
-        logger.info(u'交易服务器连接成功')
+        logger.info('交易服务器连接成功')
         
         self.login()
     
@@ -46,7 +46,7 @@ class CTPTdApi(TdApi):
         self.connectionStatus = False
         self.loginStatus = False
 
-        logger.warning(u'交易服务器连接断开')
+        logger.warning('交易服务器连接断开')
 
     #----------------------------------------------------------------------
     def onHeartBeatWarning(self, n):
@@ -71,7 +71,7 @@ class CTPTdApi(TdApi):
             self.sessionID = data['SessionID']
             self.loginStatus = True
 
-            logger.info(u'交易服务器登录完成')
+            logger.info('交易服务器登录完成')
             
             # 确认结算信息
             req = {}
@@ -82,7 +82,7 @@ class CTPTdApi(TdApi):
 
         # 否则，推送错误信息
         else:
-            self._log_err(u'交易服务器登录失败', data, error)
+            self._log_err('交易服务器登录失败', data, error)
 
     #----------------------------------------------------------------------
     def onRspUserLogout(self, data, error, n, last):
@@ -91,11 +91,11 @@ class CTPTdApi(TdApi):
         if error['ErrorID'] == 0:
             self.loginStatus = False
 
-            logger.info(u'交易服务器登出完成')
+            logger.info('交易服务器登出完成')
                 
         # 否则，推送错误信息
         else:
-            self._log_err(u'服务器登出失败', data, error)
+            self._log_err('服务器登出失败', data, error)
 
     #----------------------------------------------------------------------
     def onRspUserPasswordUpdate(self, data, error, n, last):
@@ -112,7 +112,7 @@ class CTPTdApi(TdApi):
         """发单错误（柜台）"""
         # err.errorID = error['ErrorID']
         # err.errorMsg = error['ErrorMsg'].decode('gbk')
-        self._log_err(u'发单错误（柜台）', data, error)
+        self._log_err('发单错误（柜台）', data, error)
 
     #----------------------------------------------------------------------
     def onRspParkedOrderInsert(self, data, error, n, last):
@@ -127,7 +127,7 @@ class CTPTdApi(TdApi):
     #----------------------------------------------------------------------
     def onRspOrderAction(self, data, error, n, last):
         """撤单错误（柜台）"""
-        self._log_err(u'撤单错误（柜台）', data, error)
+        self._log_err('撤单错误（柜台）', data, error)
 
     #----------------------------------------------------------------------
     def onRspQueryMaxOrderVolume(self, data, error, n, last):
@@ -138,7 +138,7 @@ class CTPTdApi(TdApi):
     def onRspSettlementInfoConfirm(self, data, error, n, last):
         """确认结算信息回报"""
         
-        logger.info(u'结算信息确认完成')
+        logger.info('结算信息确认完成')
         self._server.onLogin(self.frontID, self.sessionID)
 
         # 查询合约代码
@@ -345,7 +345,7 @@ class CTPTdApi(TdApi):
     #----------------------------------------------------------------------
     def onRspError(self, error, n, last):
         """错误回报"""
-        self._log_err(u'错误回报', '', error)
+        self._log_err('错误回报', '', error)
 
     #----------------------------------------------------------------------
     def onRtnOrder(self, data):
@@ -362,20 +362,20 @@ class CTPTdApi(TdApi):
     #----------------------------------------------------------------------
     def onRtnTrade(self, data):
         """成交回报"""
-        logger.debug(u'成交回报， onRtnTrade,%s'%data.get('StatusMsg', '').decode('gbk'))
+        logger.debug('成交回报， onRtnTrade,%s'%data.get('StatusMsg', '').decode('gbk'))
         self._server.onTrade(data)
 
     #----------------------------------------------------------------------
     def onErrRtnOrderInsert(self, data, error):
         """发单错误回报（交易所）"""
-        self._log_err(u'发单错误回报（交易所）onErrRtnOrderInsert', data, error)
+        self._log_err('发单错误回报（交易所）onErrRtnOrderInsert', data, error)
 
         self._server.onErrOrder(data)
 
     #----------------------------------------------------------------------
     def onErrRtnOrderAction(self, data, error):
         """撤单错误回报（交易所）"""
-        self._log_err(u'撤单错误回报(交易所) onErrRtnOrderAction', data, error)
+        self._log_err('撤单错误回报(交易所) onErrRtnOrderAction', data, error)
 
     #----------------------------------------------------------------------
     def onRtnInstrumentStatus(self, data):

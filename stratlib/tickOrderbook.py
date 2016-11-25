@@ -47,7 +47,7 @@ class OrderBook(strategy.BacktestingStrategy):
     def onBars(self, bars):
         # If a position was not opened, check if we should enter a long position.
         bar = bars[self.__instrument]
-        print bar.getDateTime(), bar.getBp(), bar.getAp()
+        print(bar.getDateTime(), bar.getBp(), bar.getAp())
     
     
 def testStrategy():

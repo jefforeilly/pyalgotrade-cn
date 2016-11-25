@@ -21,7 +21,7 @@
 import time
 import datetime
 import threading
-import Queue
+import queue
 
 from pyalgotrade import bar
 from pyalgotrade import barfeed
@@ -29,7 +29,7 @@ from pyalgotrade import dataseries
 from pyalgotrade import resamplebase
 import pyalgotrade.logger
 from pyalgotrade.utils import dt
-import api
+from . import api
 
 
 logger = pyalgotrade.logger.getLogger("xignite")
@@ -63,7 +63,7 @@ class PollingThread(threading.Thread):
             if not self.__stopped:
                 try:
                     self.doCall()
-                except Exception, e:
+                except Exception as e:
                     logger.critical("Unhandled exception", exc_info=e)
         logger.debug("Thread finished.")
 
@@ -148,7 +148,7 @@ class GetBarThread(PollingThread):
                 response = api.XigniteGlobalRealTime_GetBar(self.__apiToken, indentifier, "Symbol", endDateTime, self.__precision, self.__period)
                 # logger.debug(response)
                 barDict[indentifier] = build_bar(response["Bar"], indentifier, self.__frequency)
-            except api.XigniteError, e:
+            except api.XigniteError as e:
                 logger.error(e)
 
         if len(barDict):
@@ -189,7 +189,7 @@ class LiveFeed(barfeed.BaseBarFeed):
         if not isinstance(identifiers, list):
             raise Exception("identifiers must be a list")
 
-        self.__queue = Queue.Queue()
+        self.__queue = queue.Queue()
         self.__thread = GetBarThread(self.__queue, apiToken, identifiers, frequency, datetime.timedelta(seconds=apiCallDelay))
         for instrument in identifiers:
             self.registerInstrument(instrument)
@@ -234,6 +234,6 @@ class LiveFeed(barfeed.BaseBarFeed):
                 ret = eventData
             else:
                 logger.error("Invalid event received: %s - %s" % (eventType, eventData))
-        except Queue.Empty:
+        except queue.Empty:
             pass
         return ret

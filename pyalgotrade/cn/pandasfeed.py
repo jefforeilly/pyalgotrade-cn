@@ -15,7 +15,7 @@ def dataframeToBar(bar_dataframe, frequency):
     bars = []
     for _, row in bar_dataframe.iterrows():
         tmp_extra = {}
-        for key in row.keys():
+        for key in list(row.keys()):
             if key not in ['datetime', 'open', 'high', 'low', 'close', 'volume', 'amount']:
                 tmp_extra[key] = row[key]
         bars.append(bar.BasicBar(row['datetime'], row['open'], row['high'], row['low'], row['close'], row['volume']\
@@ -31,7 +31,7 @@ def dataframeToTick(tick_dataframe, frequency):
         tmp_bp = {}
         tmp_av = {}
         tmp_bv = {}
-        for key in row.keys():
+        for key in list(row.keys()):
             #extract order book component 
             if key[:2] == 'ap':
                 tmp_ap[int(key[2:])] = row[key]

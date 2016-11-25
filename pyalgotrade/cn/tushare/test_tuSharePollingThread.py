@@ -29,34 +29,34 @@ class TestTuSharePollingThread(TestCase):
     def test_valid_tick_data_with_right_timestamp(self):
         stock_id = '000001'
         thread = TuSharePollingThread([stock_id])
-        data_list = [[u'10.00', u'9.00', u'1000', u'2000', u'14:00:01']]
+        data_list = [['10.00', '9.00', '1000', '2000', '14:00:01']]
         columns = ['pre_close', 'price', 'volume', 'amount', 'time']
         df = DataFrame(data_list, columns=columns)
 
         self.assertTrue(thread.valid_tick_data(stock_id, df.ix[0]))
 
-        df.ix[0].time = u'14:00:02'
+        df.ix[0].time = '14:00:02'
         self.assertTrue(thread.valid_tick_data(stock_id, df.ix[0]))
 
-        df.ix[0].time = u'14:00:00'
+        df.ix[0].time = '14:00:00'
         self.assertFalse(thread.valid_tick_data(stock_id, df.ix[0]))
 
     def test_valid_tick_data_with_right_price(self):
         stock_id = '000001'
         thread = TuSharePollingThread([stock_id])
 
-        data_list = [[u'10.00', u'10.00', u'1000', u'2000', u'14:00:01']]
+        data_list = [['10.00', '10.00', '1000', '2000', '14:00:01']]
         columns = ['pre_close', 'price', 'volume', 'amount', 'time']
         df = DataFrame(data_list, columns=columns)
         self.assertTrue(thread.valid_tick_data(stock_id, df.ix[0]))
 
         # price > pre_close * 1.1
-        df.ix[0].price = u'11.01'
+        df.ix[0].price = '11.01'
         df.ix[0].time = '14:00:03'
         self.assertFalse(thread.valid_tick_data(stock_id, df.ix[0]))
 
         # price < pre_close * 0.9
-        df.ix[0].price = u'8.90'
+        df.ix[0].price = '8.90'
         df.ix[0].time = '14:00:04'
         self.assertFalse(thread.valid_tick_data(stock_id, df.ix[0]))
 

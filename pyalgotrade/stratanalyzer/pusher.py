@@ -68,7 +68,7 @@ class Pusher(stratanalyzer.StrategyAnalyzer):
         
         message = [execInfo.getDateTime(), self.__figure_id, self.__strategy_id, instrument_id, action, order_id, price, quantity]
         
-        print message
+        print(message)
         
 
     def attached(self, strat):

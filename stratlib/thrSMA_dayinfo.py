@@ -125,7 +125,7 @@ class thrSMA(strategy.BacktestingStrategy):
             self.__closeD.append(self.__close[-1]) 
             self.__upper_limit.append(round(round(self.__closeD[-2] * 1.1 * 1000) / 10) / 100)
             self.__lower_limit.append(round(round(self.__closeD[-2] * 0.9 * 1000) / 10) / 100) 
-            print self.__datetime[-1].date(), self.__datetime[-2].date(), self.__openD[-1]
+            print(self.__datetime[-1].date(), self.__datetime[-2].date(), self.__openD[-1])
                              
         elif self.__datetime[-1].date() == self.__datetime[-2].date():
             if self.__high[-1] > self.__highD[-1]:

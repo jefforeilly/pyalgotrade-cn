@@ -59,7 +59,7 @@ class DoubleMA(strategy.BacktestingStrategy):
             if cross.cross_above(self.__ma1, self.__ma2) > 0:
                 shares = int(self.getBroker().getEquity() * 0.2 / bars[self.__instrument].getPrice())
                 self.__position = self.enterLong(self.__instrument, shares)
-                print bars[self.__instrument].getDateTime(), bars[self.__instrument].getPrice()
+                print(bars[self.__instrument].getDateTime(), bars[self.__instrument].getPrice())
                 #self.info("buy %s" % (bars.getDateTime()))
     
     

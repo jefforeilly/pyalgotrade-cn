@@ -24,9 +24,9 @@ from pyalgotrade.tushare.barfeed import build_bar
 class TestBuild_bar(TestCase):
     def test_build_bar(self):
         ds = TickDataSeries()
-        ds.append(u'1', u'11', u'111', '14:55:00')
-        ds.append(u'5', u'55', u'555', '14:55:03')
-        ds.append(u'3', u'33', u'333', '14:55:06')
+        ds.append('1', '11', '111', '14:55:00')
+        ds.append('5', '55', '555', '14:55:03')
+        ds.append('3', '33', '333', '14:55:06')
 
         period_bar = build_bar('14:56:00', ds)
 
@@ -39,7 +39,7 @@ class TestBuild_bar(TestCase):
 
     def test_basic_build_bar(self):
         ds = TickDataSeries()
-        ds.append(u'1', u'11', u'111', '14:55:00')
+        ds.append('1', '11', '111', '14:55:00')
 
         period_bar = build_bar('14:56:00', ds)
 

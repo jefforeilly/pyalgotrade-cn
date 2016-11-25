@@ -18,7 +18,7 @@
 u用以转换dataFrame到feed，相当于以pandas dataframe 为桥，不再以csv为桥。下一步增加方法直接从数据库中读
 """
 
-import dataFrameBarfeed
+from . import dataFrameBarfeed
 from pyalgotrade.barfeed import common
 from pyalgotrade.utils import dt
 from pyalgotrade import bar

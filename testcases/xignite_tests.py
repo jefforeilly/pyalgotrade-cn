@@ -21,7 +21,7 @@
 import datetime
 import json
 
-import common
+from . import common
 
 from pyalgotrade.xignite import api
 from pyalgotrade.xignite import barfeed

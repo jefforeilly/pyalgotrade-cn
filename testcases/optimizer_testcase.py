@@ -20,7 +20,7 @@
 
 import sys
 
-import common
+from . import common
 
 from pyalgotrade.optimizer import local
 from pyalgotrade.barfeed import yahoofeed
@@ -40,5 +40,5 @@ class OptimizerTestCase(common.TestCase):
         instrument = "orcl"
         barFeed.addBarsFromCSV(instrument, common.get_data_file_path("orcl-2000-yahoofinance.csv"))
         res = local.run(sma_crossover.SMACrossOver, barFeed, parameters_generator(instrument, 5, 100))
-        self.assertEquals(round(res.getResult(), 2), 1295462.6)
-        self.assertEquals(res.getParameters()[1], 20)
+        self.assertEqual(round(res.getResult(), 2), 1295462.6)
+        self.assertEqual(res.getParameters()[1], 20)
